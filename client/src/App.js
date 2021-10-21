@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import logo from './logo.svg';
+import Question from './components/Question';
 
 class App extends Component {
   state = {
@@ -25,14 +25,34 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">{this.state.data}</p>
+      <div className="todoapp stack-large">
+      <h1>BuzzQuizz</h1>
+        <h2 className="label-wrapper">
+          <label htmlFor="new-todo-input" className="label__lg">
+            Lets start quizzing!
+          </label>
+        </h2>
+      <ul
+        role="list"
+        className="todo-list stack-large stack-exception"
+      >
+        <Question name ="Question" id="Question-1" />
+        
+      </ul>
+
+      <div className="filters btn-group stack-exception">
+        <button type="button" className="btn toggle-btn">
+          <span>Q1</span>
+        </button>
+        <button type="button" className="btn toggle-btn">
+          <span>Q2</span>
+        </button>
+        <button type="button" className="btn toggle-btn">
+          <span>Q3</span>
+        </button>
       </div>
-    );
+    </div>
+  );
   }
 }
 
