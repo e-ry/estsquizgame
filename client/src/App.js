@@ -1,47 +1,82 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import Question from './components/Question';
 
-class App extends Component {
-  state = {
-    data: null
-  };
+function App() {
+  const [questions, setQuestions] = useState();
+  const [question, setQuestion] = useState();
+  const [options, setOptions] = useState();
+  const [loading, setLoading] = useState(true);
 
-  componentDidMount() {
-    this.callBackendAPI()
-      .then((res) => this.setState({ data: res.express }))
-      .catch((err) => console.log(err));
-  }
-  // fetching the GET route from the Express server which matches the GET route from server.js
-  callBackendAPI = async () => {
-    const response = await fetch('/express_backend');
+  useEffect(() => {
+    getAllQuestions();
+    getOptionsById(2);
+    getQuestionById(2)
+    .then((r) => setLoading(false));
+  }, []);
+
+  const getOptionsById = async (id) => {
+    const response = await fetch(
+      'http://localhost:5000/options/' + id.toString()
+    );
     const body = await response.json();
-
     if (response.status !== 200) {
       throw Error(body.message.a);
     }
+    setOptions(body);
     return body;
   };
 
-  render() {
-    return (
-      <div className="todoapp stack-large">
+  const getQuestionById = async (id) => {
+    const response = await fetch(
+      'http://localhost:5000/questions/' + id.toString()
+    );
+    const body = await response.json();
+    if (response.status !== 200) {
+      throw Error(body.message.a);
+    }
+    setQuestion(await body);
+    return body;
+  };
+
+  const getAllQuestions = async () => {
+    const response = await fetch('http://localhost:5000/questions/');
+    const body = await response.json();
+    if (response.status !== 200) {
+      throw Error(body.message.a);
+    }
+    setQuestions(body);
+    return body;
+  };
+
+  const print = async () => {
+    await getOptionsById(3)
+      .then((r) => console.log(questions))
+      .catch((err) => console.log(err));
+    await getQuestionById(3).catch((err) => console.log(err));
+    await getAllQuestions().catch((err) => console.log(err));
+  };
+
+  return loading ? (
+    <div>Loading</div>
+  ) : (
+    <div className="todoapp stack-large">
       <h1>BuzzQuizz</h1>
-        <h2 className="label-wrapper">
-          <label htmlFor="new-todo-input" className="label__lg">
-            Lets start quizzing!
-          </label>
-        </h2>
-      <ul
-        role="list"
-        className="todo-list stack-large stack-exception"
-      >
-        <Question name ="Question" id="Question-1" />
-        
+      <h2 className="label-wrapper">
+        <label htmlFor="new-todo-input" className="label__lg">
+          {questions.length}
+        </label>
+      </h2>
+      <ul className="todo-list stack-large stack-exception">
+        <Question name="Question" id="Question-1" />
       </ul>
 
       <div className="filters btn-group stack-exception">
-        <button type="button" className="btn toggle-btn">
+        <button
+          onClick={() => print()}
+          type="button"
+          className="btn toggle-btn"
+        >
           <span>Q1</span>
         </button>
         <button type="button" className="btn toggle-btn">
@@ -53,7 +88,87 @@ class App extends Component {
       </div>
     </div>
   );
+}
+
+export default App;
+/*
+class App extends Component {
+  state = {
+    questions: null,
+    users: null
+  };
+
+  componentDidMount() {
+    this.getOptionsById(3)
+      .then((res) => this.setState({ data: res.express }))
+      .catch((err) => console.log(err));
+    this.getQuestionById(3)
+      .then((res) => this.setState({ data: res.express }))
+      .catch((err) => console.log(err));
+    this.getAllQuestions()
+      .then((res) => this.setState({ questions: res.express }))
+      .catch((err) => console.log(err));
+  }
+
+  getOptionsById = async (id) => {
+    const response = await fetch(
+      'http://localhost:5000/options/' + id.toString()
+    );
+    const body = await response.json();
+    if (response.status !== 200) {
+      throw Error(body.message.a);
+    }
+    return body;
+  };
+
+  getQuestionById = async (id) => {
+    const response = await fetch(
+      'http://localhost:5000/questions/' + id.toString()
+    );
+    const body = await response.json();
+    if (response.status !== 200) {
+      throw Error(body.message.a);
+    }
+    return body;
+  };
+
+  getAllQuestions = async () => {
+    const response = await fetch('http://localhost:5000/questions/');
+    const body = await response.json();
+    if (response.status !== 200) {
+      throw Error(body.message.a);
+    }
+    return body;
+  };
+
+  render() {
+    return (
+      <div className="todoapp stack-large">
+        <h1>BuzzQuizz</h1>
+        <h2 className="label-wrapper">
+          <label htmlFor="new-todo-input" className="label__lg">
+            Lets start quizzing!
+          </label>
+        </h2>
+        <ul role="list" className="todo-list stack-large stack-exception">
+          <Question name="Question" id="Question-1" />
+        </ul>
+
+        <div className="filters btn-group stack-exception">
+          <button type="button" className="btn toggle-btn">
+            <span>Q1</span>
+          </button>
+          <button type="button" className="btn toggle-btn">
+            <span>Q2</span>
+          </button>
+          <button type="button" className="btn toggle-btn">
+            <span>Q3</span>
+          </button>
+        </div>
+      </div>
+    );
   }
 }
 
 export default App;
+*/

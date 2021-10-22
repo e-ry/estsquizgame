@@ -9,6 +9,7 @@ const pool = new Pool({
 });
 
 const getUsers = (request, response) => {
+  console.log("getting users")
   pool.query('SELECT * FROM users ORDER BY id ASC', (error, results) => {
     if (error) {
       throw error;
@@ -41,6 +42,15 @@ const getQuestionById = (request, response) => {
       response.status(200).json(results.rows);
     }
   );
+};
+
+const getQuestions = (request, response) => {
+  pool.query('SELECT * FROM questions ORDER BY id ASC', (error, results) => {
+    if (error) {
+      throw error;
+    }
+    response.status(200).json(results.rows);
+  });
 };
 
 const getOptionsById = (request, response) => {
@@ -103,6 +113,7 @@ const deleteUser = (request, response) => {
 module.exports = {
   getUsers,
   getQuestionById,
+  getQuestions,
   getOptionsById,
   getUserById,
   createUser,
