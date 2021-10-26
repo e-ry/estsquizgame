@@ -1,72 +1,50 @@
+/*Follow this https://blog.logrocket.com/nodejs-expressjs-postgresql-crud-rest-api-example/ */
 /*CREATE TABLES*/
-CREATE TABLE questions (
-    id SERIAL PRIMARY KEY,
-    answer_id integer REFERENCES options(id),
-    creator_id integer REFERENCES users(id),
-    question text
+
+CREATE TABLE categories(
+    categoryId SERIAL PRIMARY KEY,
+    categoryName VARCHAR(255) NOT NULL
 );
 
-CREATE UNIQUE INDEX questions_pkey ON questions(id int4_ops);
 
-CREATE TABLE options (
-    id SERIAL PRIMARY KEY,
-    option text,
-    question_id integer REFERENCES questions(id)
+
+CREATE TABLE options(
+    optionId SERIAL PRIMARY KEY,
+    optionText VARCHAR(255) NOT NULL
 );
 
-CREATE UNIQUE INDEX options_pkey ON options(id int4_ops);
-
-CREATE TABLE users (
-    id SERIAL PRIMARY KEY,
-    name character varying(30),
-    email character varying(30)
+CREATE TABLE questions(
+    questionId SERIAL PRIMARY KEY,
+    questionText VARCHAR(255) NOT NULL,
+    nrOfOptions integer NOT NULL,
+    nrOfAnswers integer NOT NULL,
+    categoryKey integer REFERENCES categories(categoryId),
+    contentType VARCHAR(255) NOT NULL,
+    questionType VARCHAR(255) NOT NULL,
+    difficultyLevel VARCHAR(255) NOT NULL
 );
 
-CREATE UNIQUE INDEX users_pkey ON users(id int4_ops);
+CREATE TABLE relationshopsQuestionOptions(
+    questionKey integer REFERENCES questions(questionId),
+    optionKey integer REFERENCES options(optionId),
+    isAnswer boolean NOT NULL
+);
 
-/*INSERT VALUES - questions - fixed ids*/
-INSERT INTO "public"."questions"("answer_id","user_id","question")
-VALUES
-(3,5,E'Which one of these options is used for frontend work?');
 
-INSERT INTO "public"."questions"("answer_id","user_id","question")
-VALUES
-(6,5,E'What does Ops stand for in DevOps?');
+/* Insert */
+INSERT INTO categories(categoryId,categoryName)
+VALUES (1,E'Frontend'), (2,E'Backend'), (3,E'Data');
 
-/*INSERT VALUES - user(s)*/
-INSERT INTO "public"."users"("name","email")
-VALUES
-(E'Elisabeth',E'erya@netlight.com');
+INSERT INTO options(optionId,optionText)
+VALUES  (1,E'R'), (2,E'Java'), (3,E'Javascript'), (4,E'Python'), 
+        (5,E'Operatives'), (6,E'Operations'), (7,E'Options'),(8,E'Observe');
 
-/*INSERT VALUES - Options*/
-INSERT INTO "public"."options"("option","question_id")
-VALUES
-(E'R',2);
+INSERT INTO questions(questionId,questionText,nrOfOptions,nrOfAnswers,categoryKey,contentType,questionType,difficultyLevel)
+VALUES 
+(1,E'Which one of these options is used for frontend work?',4,1,1,E'buzzword',E'multiple choice',1),
+(2,E'What does Ops stand for in DevOps?',4,1,1,E'buzzword',E'multiple choice',1);
 
-INSERT INTO "public"."options"("option","question_id")
-VALUES
-(E'Java',2);
-
-INSERT INTO "public"."options"("option","question_id")
-VALUES
-(E'Javascript',2);
-
-INSERT INTO "public"."options"("option","question_id")
-VALUES
-(E'Python',2);
-
-INSERT INTO "public"."options"("option","question_id")
-VALUES
-(E'Operatives',3);
-
-INSERT INTO "public"."options"("option","question_id")
-VALUES
-(E'Operations',3);
-
-INSERT INTO "public"."options"("option","question_id")
-VALUES
-(E'Options',3);
-
-INSERT INTO "public"."options"("option","question_id")
-VALUES
-(E'Observe',3);
+INSERT INTO relationshopsQuestionOptions(questionKey,optionKey,isAnswer)
+VALUES 
+(1,1,FALSE), (1,2,FALSE), (1,3,TRUE), (1,4,FALSE),
+(2,5,FALSE), (2,6,TRUE), (2,7,FALSE), (2,8,FALSE);
