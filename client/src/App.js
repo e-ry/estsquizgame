@@ -1,18 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React, { lazy, useEffect, useState, Suspense } from 'react';
 import './App.css';
+import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import Question from './components/Question';
+import Option from './components/Option';
+import starterPage from './pages/starterPage';
+import * as ROUTES from './constants/routes'
+
+const StartPage = lazy(() => import ('./pages/starterPage'));
 
 function App() {
   const [questions, setQuestions] = useState();
   const [question, setQuestion] = useState();
   const [options, setOptions] = useState();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    getAllQuestions();
-    getOptionsById(2);
-    getQuestionById(2)
-    .then((r) => setLoading(false));
+    //getAllQuestions();
+    //getOptionsById(2);
+    //getQuestionById(2)
+    //.then((r) => setLoading(false));
   }, []);
 
   const getOptionsById = async (id) => {
@@ -57,35 +63,16 @@ function App() {
     await getAllQuestions().catch((err) => console.log(err));
   };
 
-  return loading ? (
-    <div>Loading</div>
-  ) : (
-    <div className="todoapp stack-large">
-      <h1>BuzzQuizz</h1>
-      <h2 className="label-wrapper">
-        <label htmlFor="new-todo-input" className="label__lg">
-          {questions.length}
-        </label>
-      </h2>
-      <ul className="todo-list stack-large stack-exception">
-        <Question name="Question" id="Question-1" />
-      </ul>
-
-      <div className="filters btn-group stack-exception">
-        <button
-          onClick={() => print()}
-          type="button"
-          className="btn toggle-btn"
-        >
-          <span>Q1</span>
-        </button>
-        <button type="button" className="btn toggle-btn">
-          <span>Q2</span>
-        </button>
-        <button type="button" className="btn toggle-btn">
-          <span>Q3</span>
-        </button>
-      </div>
+  return(
+    <div>
+    <Router>
+      <Suspense fallback={<p>loading...</p>}>
+        <Switch>
+            <Route path={ROUTES.STARTPAGE} component={StartPage}/>
+        </Switch>
+      </Suspense>
+      </Router>
+    <starterPage/>
     </div>
   );
 }
