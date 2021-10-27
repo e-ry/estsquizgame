@@ -8,27 +8,15 @@ const pool = new Pool({
   port: 5432
 });
 
-const getUsers = (request, response) => {
-  console.log("getting users")
-  pool.query('SELECT * FROM users ORDER BY id ASC', (error, results) => {
+const getQuestions = (request, response) => {
+  pool.query('SELECT * FROM questions ORDER BY questionId ASC;', (error, results) => {
     if (error) {
       throw error;
     }
     response.status(200).json(results.rows);
   });
 };
-
-const getUserById = (request, response) => {
-  const id = parseInt(request.params.id);
-
-  pool.query('SELECT * FROM users WHERE id = $1', [id], (error, results) => {
-    if (error) {
-      throw error;
-    }
-    response.status(200).json(results.rows);
-  });
-};
-
+/*
 const getQuestionById = (request, response) => {
   const id = parseInt(request.params.id);
 
@@ -42,15 +30,6 @@ const getQuestionById = (request, response) => {
       response.status(200).json(results.rows);
     }
   );
-};
-
-const getQuestions = (request, response) => {
-  pool.query('SELECT * FROM questions ORDER BY id ASC', (error, results) => {
-    if (error) {
-      throw error;
-    }
-    response.status(200).json(results.rows);
-  });
 };
 
 const getOptionsById = (request, response) => {
@@ -109,14 +88,7 @@ const deleteUser = (request, response) => {
     response.status(200).send(`User deleted with ID: ${id}`);
   });
 };
-
+*/
 module.exports = {
-  getUsers,
-  getQuestionById,
-  getQuestions,
-  getOptionsById,
-  getUserById,
-  createUser,
-  updateUser,
-  deleteUser
+  getQuestions
 };
