@@ -42,7 +42,7 @@ VALUES  (1,E'R'), (2,E'Java'), (3,E'Javascript'), (4,E'Python'),
 INSERT INTO questions(questionId,questionText,nrOfOptions,nrOfAnswers,categoryKey,contentType,questionType,difficultyLevel)
 VALUES 
 (1,E'Which one of these options is used for frontend work?',4,1,1,E'buzzword',E'multiple choice',1),
-(2,E'What does Ops stand for in DevOps?',4,1,1,E'buzzword',E'multiple choice',1);
+(2,E'What does Ops stand for in DevOps?',4,1,2,E'buzzword',E'multiple choice',1);
 
 INSERT INTO relationshopsQuestionOptions(questionKey,optionKey,isAnswer)
 VALUES 
