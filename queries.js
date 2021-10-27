@@ -1,7 +1,7 @@
 //TODO this is unsafe
 const Pool = require('pg').Pool;
 const pool = new Pool({
-  user: 'tele',
+  user: 'eric',
   host: 'localhost',
   database: 'api',
   password: 'password',
@@ -18,91 +18,46 @@ const getAllQuestions = (request, response) => {
 };
 
 const getQuestions = (request, response) => {
-  pool.query('SELECT t2.questionId, t2.questionText,t3.optionText,t1.isAnswer,t4.categoryName FROM relationshopsquestionoptions t1 join ( select * from questions order by random() limit 1 ) as t2 on t1.questionKey = t2.questionId join options as t3 on t1.optionKey = t3.optionId join categories as t4 on t2.categoryKey = t4.categoryId;', (error, results) => {
+  pool.query('SELECT t2.questionId, t2.questionText,t3.optionId, t3.optionText,t1.isAnswer,t4.categoryName FROM relationshopsquestionoptions t1 join ( select * from questions order by random() limit 2 ) as t2 on t1.questionKey = t2.questionId join options as t3 on t1.optionKey = t3.optionId join categories as t4 on t2.categoryKey = t4.categoryId;', (error, results) => {
     if (error) {
       throw error;
     }
-    console.log("res", results.rows);
-
-    //EXAMPLE OBJECT
-    // var questionsAndOptions = [
-    //   { questionId : 1,
-    //     questionText : "Blablabla??",
-    //     category: "Frontend",
-    //     options: [
-    //       {
-    //         optionId: 1,
-    //         optionText: "Blabla option bla",
-    //         isAnswer: true
-    //       },
-    //       {
-    //         optionId: 1,
-    //         optionText: "Blabla option bla",
-    //         isAnswer: true
-    //       },
-    //       {
-    //         optionId: 1,
-    //         optionText: "Blabla option bla",
-    //         isAnswer: true
-    //       }
-    //     ]
-    //   },
-    //   { questionId : 1,
-    //     questionText : "Blablabla??",
-    //     category: "Frontend",
-    //     options: [
-    //       {
-    //         optionId: 1,
-    //         optionText: "Blabla option bla",
-    //         isAnswer: true
-    //       },
-    //       {
-    //         optionId: 1,
-    //         optionText: "Blabla option bla",
-    //         isAnswer: true
-    //       },
-    //       {
-    //         optionId: 1,
-    //         optionText: "Blabla option bla",
-    //         isAnswer: true
-    //       }
-    //     ]
-    //   }
-    // ]
-
-    var options = [];
-
-    console.log("object");
-    for (var i = 0; i < results.rows.length; i++) {
-      console.log(results.rows[i]);
-
-      questionsAndOptions.push(results.rows[i].questionId)
-
-
-    }
-  
-
-
     
 
-    response.status(200).json(results.rows);
+    var questionsAndOptions = [];
+    var uniqueOptions = [];
+    var uniqueQuestions = results.rows.reduce((unique, o) => {
+      if(!unique.some(obj => obj.questionid === o.questionid)) {
+        unique.push((({ questionid, questiontext,categoryname }) => ({ questionid, questiontext,categoryname }))(o));
+      }
+      return unique;
+    },[]);
+
+
+    for (var i = 0; i < uniqueQuestions.length; i++) {
+      uniqueOptions = results.rows.filter(obj => obj.questionid === uniqueQuestions[i].questionid);
+      var options = [];
+      for(var j = 0; j < uniqueOptions.length; j++){
+        const option = {
+          "optionId": uniqueOptions[j].optionid, 
+          "optionText": uniqueOptions[j].optiontext,
+          "isAnswer": uniqueOptions[j].isanswer
+        }
+        options.push(option);
+
+      }
+      uniqueQuestions[i].options=options;
+
+    }
+
+
+
+    response.status(200).json(uniqueQuestions);
 
   });
 };
 
-//QUESTION
-// SELECT t1.questionId, t1.questionText, t2.categoryName FROM questions t1
-// join categories as t2 on t1.categoryKey = t2.categoryId
-// order by random()
-// limit 1;
 
-//OPTIONS
-// SELECT t2.questionId,t3.optionText,t1.isAnswer FROM relationshopsquestionoptions t1
-// join (
-//   select * from questions limit 1
-// ) as t2 on t1.questionKey = t2.questionId
-// join options as t3 on t1.optionKey = t3.optionId
-// ;
 
 /*
 const getQuestionById = (request, response) => {
