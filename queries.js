@@ -1,7 +1,7 @@
 //TODO this is unsafe
 const Pool = require('pg').Pool;
 const pool = new Pool({
-  user: 'eric',
+  user: 'me',
   host: 'localhost',
   database: 'api',
   password: 'password',
@@ -18,13 +18,11 @@ const getAllQuestions = (request, response) => {
 };
 
 const getQuestions = (request, response) => {
-  pool.query('SELECT t2.questionId, t2.questionText,t3.optionId, t3.optionText,t1.isAnswer,t4.categoryName FROM relationshopsquestionoptions t1 join ( select * from questions order by random() limit 2 ) as t2 on t1.questionKey = t2.questionId join options as t3 on t1.optionKey = t3.optionId join categories as t4 on t2.categoryKey = t4.categoryId;', (error, results) => {
+  pool.query('SELECT t2.questionId, t2.questionText,t3.optionId, t3.optionText,t1.isAnswer,t4.categoryName FROM relationshipsquestionoptions t1 join ( select * from questions order by random() limit 4 ) as t2 on t1.questionKey = t2.questionId join options as t3 on t1.optionKey = t3.optionId join categories as t4 on t2.categoryKey = t4.categoryId;', (error, results) => {
     if (error) {
       throw error;
     }
     
-
-    var questionsAndOptions = [];
     var uniqueOptions = [];
     var uniqueQuestions = results.rows.reduce((unique, o) => {
       if(!unique.some(obj => obj.questionid === o.questionid)) {
@@ -32,7 +30,6 @@ const getQuestions = (request, response) => {
       }
       return unique;
     },[]);
-
 
     for (var i = 0; i < uniqueQuestions.length; i++) {
       uniqueOptions = results.rows.filter(obj => obj.questionid === uniqueQuestions[i].questionid);
@@ -44,16 +41,11 @@ const getQuestions = (request, response) => {
           "isAnswer": uniqueOptions[j].isanswer
         }
         options.push(option);
-
       }
       uniqueQuestions[i].options=options;
-
     }
 
-
-
     response.status(200).json(uniqueQuestions);
-
   });
 };
 
