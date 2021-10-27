@@ -33,8 +33,8 @@ CREATE TABLE relationships_questions_options(
     is_answer boolean NOT NULL
 );
 
-/*ALTER TABLE relationships_questions_options
-ADD CONSTRAINT uq_relationships_questions_options UNIQUE(question_key, option_key)*/
+ALTER TABLE relationships_questions_options
+ADD CONSTRAINT uq_relationships_questions_options UNIQUE(question_key, option_key);
 
 /* Insert */
 INSERT INTO categories(category_id,category_name)
