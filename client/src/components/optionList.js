@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Option from "./option";
 
 export default function OptionList({options, setScore, score }){
+
+    const [optionSelected, setOptionSelected] = useState('');
+   
 
     
     return (
@@ -9,8 +12,8 @@ export default function OptionList({options, setScore, score }){
     <ul> 
         
         {options.map((option, index)=>{
-            return <li key={index}> 
-                        <Option option = {option} setScore = {setScore} score={score}/> 
+            return <li key={option.optionId}> 
+                        <Option option = {option} setOptionSelected = {setOptionSelected} optionSelected = {optionSelected} setScore = {setScore} score = {score}/> 
                     </li>
         })}
     

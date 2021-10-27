@@ -19,12 +19,12 @@ export default function QuizPage(){
     ];
 
     const options = [
-        {optionId:"1", optionText:"hey"},
-        {optionId:"2", optionText:"hoo"},
-        {optionId:"3", optionText:"heeey"},
-        {optionId:"4", optionText:"hooo"},
-        {optionId:"5", optionText:"heeeey"},
-        {optionId:"5", optionText:"hoooo"},
+        {optionId:"1", optionText:"hey", isAnswer: false },
+        {optionId:"2", optionText:"hoo", isAnswer: false},
+        {optionId:"3", optionText:"heeey", isAnswer: false},
+        {optionId:"4", optionText:"hooo", isAnswer: true},
+        {optionId:"5", optionText:"heeeey", isAnswer: false},
+        {optionId:"6", optionText:"hoooo", isAnswer: false},
     ];
 
     const [currentQuestion, setCurrentQuestion] = useState(0);
