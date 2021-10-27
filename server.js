@@ -23,11 +23,4 @@ app.get('/', (req, res) => {
   res.send({ a: 'apple' });
 });
 
-app.get('/users', db.getUsers);
-app.get('/users/:id', db.getUserById);
-app.get('/options/:id', db.getOptionsById);
-app.get('/questions/:id', db.getQuestionById);
 app.get('/questions/', db.getQuestions);
-app.post('/users', db.createUser);
-app.put('/users/:id', db.updateUser);
-app.delete('/users/:id', db.deleteUser);

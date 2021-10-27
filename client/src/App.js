@@ -15,35 +15,9 @@ function App() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    //getAllQuestions();
-    //getOptionsById(2);
-    //getQuestionById(2)
-    //.then((r) => setLoading(false));
+    getAllQuestions()
+    .then((r) => setLoading(false));
   }, []);
-
-  const getOptionsById = async (id) => {
-    const response = await fetch(
-      'http://localhost:5000/options/' + id.toString()
-    );
-    const body = await response.json();
-    if (response.status !== 200) {
-      throw Error(body.message.a);
-    }
-    setOptions(body);
-    return body;
-  };
-
-  const getQuestionById = async (id) => {
-    const response = await fetch(
-      'http://localhost:5000/questions/' + id.toString()
-    );
-    const body = await response.json();
-    if (response.status !== 200) {
-      throw Error(body.message.a);
-    }
-    setQuestion(await body);
-    return body;
-  };
 
   const getAllQuestions = async () => {
     const response = await fetch('http://localhost:5000/questions/');
@@ -56,11 +30,9 @@ function App() {
   };
 
   const print = async () => {
-    await getOptionsById(3)
+    await getAllQuestions()
       .then((r) => console.log(questions))
       .catch((err) => console.log(err));
-    await getQuestionById(3).catch((err) => console.log(err));
-    await getAllQuestions().catch((err) => console.log(err));
   };
 
   return(
