@@ -33,7 +33,9 @@ CREATE TABLE relationships_questions_options(
     is_answer boolean NOT NULL
 );
 
-/*ADD CONSTRAINT relationships_questions_options UNIQUE(question_key, option_key)*/
+/*ALTER TABLE relationships_questions_options
+ADD CONSTRAINT uq_relationships_questions_options UNIQUE(question_key, option_key)*/
+
 /* Insert */
 INSERT INTO categories(category_id,category_name)
 VALUES (1,E'Frontend'), (2,E'Backend'), (3,E'Data');
