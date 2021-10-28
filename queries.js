@@ -1,7 +1,7 @@
 //TODO this is unsafe
 const Pool = require('pg').Pool;
 const pool = new Pool({
-  user: 'me',
+  user: 'eric',
   host: 'localhost',
   database: 'api',
   password: 'password',
@@ -22,7 +22,7 @@ const getQuestions = (request, response) => {
     if (error) {
       throw error;
     }
-    
+    var resp = []
     var uniqueOptions = [];
     var uniqueQuestions = results.rows.reduce((unique, o) => {
       if(!unique.some(obj => obj.question_id === o.question_id)) {
@@ -36,19 +36,46 @@ const getQuestions = (request, response) => {
       var options = [];
       for(var j = 0; j < uniqueOptions.length; j++){
         const option = {
-          "option_id": uniqueOptions[j].option_id, 
-          "option_text": uniqueOptions[j].option_text,
-          "is_answer": uniqueOptions[j].is_answer
+          "optionId": uniqueOptions[j].option_id, 
+          "optionText": uniqueOptions[j].option_text,
+          "isAnswer": uniqueOptions[j].is_answer
         }
         options.push(option);
       }
-      uniqueQuestions[i].options=options;
+      resp.push( {
+        "questionId":uniqueQuestions[i].question_id, 
+        "questionText":uniqueQuestions[i].question_text, 
+        "categoryName" :uniqueQuestions[i].category_name,
+        "options" :options
+
+      } )
+      
     }
 
-    response.status(200).json(uniqueQuestions);
+    //onst transformed = uniqueQuestions.map(({ question_id, question_text, category_name,option}) => ({ questionId: question_id, questionText: question_text,categoryName:category_name ,option:option}));
+    
+    response.status(200).json(resp);
   });
 };
 
+
+const createOption = (request, response) => {
+ 
+  console.log(request.body.toString())
+  const { option_text } = request.body;
+
+  pool.query(
+    'INSERT INTO options (option_text) VALUES ($1)',
+    [option_text],
+    (error, result) => {
+      if (error) {
+        throw error;
+      }
+      console.log(result);
+      response.status(201).send(`User added with ID: ${result.insertId}`);
+    }
+  );
+};
 
 
 /*
@@ -125,5 +152,6 @@ const deleteUser = (request, response) => {
 };
 */
 module.exports = {
-  getQuestions
+  getQuestions,
+  createOption
 };

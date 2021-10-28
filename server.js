@@ -24,3 +24,4 @@ app.get('/', (req, res) => {
 });
 
 app.get('/questions/', db.getQuestions);
+app.post('/creat_option/', db.createOption);
