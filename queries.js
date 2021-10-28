@@ -1,7 +1,7 @@
 //TODO this is unsafe
 const Pool = require('pg').Pool;
 const pool = new Pool({
-  user: 'eric',
+  user: 'tele',
   host: 'localhost',
   database: 'api',
   password: 'password',
@@ -18,7 +18,7 @@ const getAllQuestions = (request, response) => {
 };
 
 const getQuestions = (request, response) => {
-  pool.query('SELECT t2.question_id, t2.question_text, t3.option_id, t3.option_text, t1.is_answer,t4.category_name FROM relationships_questions_options t1 join ( select * from questions order by random() limit 4 ) as t2 on t1.question_key = t2.question_id join options as t3 on t1.option_key = t3.option_id join categories as t4 on t2.category_key = t4.category_id;', (error, results) => {
+  pool.query('SELECT t2.question_id, t2.question_text, t3.option_id, t3.option_text, t3.is_answer,t4.category_name FROM relationships_questions_options t1 join ( select * from questions order by random() limit 4 ) as t2 on t1.question_key = t2.question_id join options as t3 on t1.option_key = t3.option_id join categories as t4 on t2.category_key = t4.category_id;', (error, results) => {
     if (error) {
       throw error;
     }
@@ -51,30 +51,28 @@ const getQuestions = (request, response) => {
       } )
       
     }
-
-    //onst transformed = uniqueQuestions.map(({ question_id, question_text, category_name,option}) => ({ questionId: question_id, questionText: question_text,categoryName:category_name ,option:option}));
-    
+    console.log(resp);
     response.status(200).json(resp);
   });
 };
 
+const createQuestionAndAnswer = (request, response) => {
 
-const createOption = (request, response) => {
- 
-  console.log(request.body.toString())
-  const { option_text } = request.body;
+  const { question_text,nr_of_options,nr_of_answers,
+    category_key,content_type,question_type,difficulty_level,option1,is_answer1,option2,is_answer2,option3,is_answer3,option4,is_answer4 } = request.body;
 
   pool.query(
-    'INSERT INTO options (option_text) VALUES ($1)',
-    [option_text],
+    'with question AS ( INSERT INTO questions(question_text,nr_of_options,nr_of_answers, category_key,content_type,question_type,difficulty_level) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING question_id AS id ), opt AS ( INSERT INTO options(option_text,is_answer) VALUES ($8,$9),($10,$11),($12,$13),($14,$15) RETURNING option_id AS id ) INSERT INTO relationships_questions_options(question_key,option_key) SELECT question.id,opt.id from question, opt',
+    [question_text,nr_of_options,nr_of_answers,
+      category_key,content_type,question_type,difficulty_level,option1,is_answer1,option2,is_answer2,option3,is_answer3,option4,is_answer4],
     (error, result) => {
       if (error) {
         throw error;
       }
-      console.log(result);
-      response.status(201).send(`User added with ID: ${result.insertId}`);
+      response.status(201).send( result);
     }
   );
+ 
 };
 
 
@@ -153,5 +151,5 @@ const deleteUser = (request, response) => {
 */
 module.exports = {
   getQuestions,
-  createOption
+  createQuestionAndAnswer
 };
