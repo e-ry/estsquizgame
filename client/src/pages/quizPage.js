@@ -37,15 +37,13 @@ export default function QuizPage() {
             <h2 className="text-center py-10">
               {questions[currentQuestion].categoryName}
             </h2>
-            {console.log(questions.length)};
-            {console.log(currentQuestion)};
             <Quizcard question = {questions[currentQuestion]} setScore = {setScore} score = {score}/>
 
             <button
-                className="my-28 bg-purple-400 text-white px-5 py-1 rounded"
+                className="my-28 bg-purple-500 text-white px-5 py-1 rounded"
                 onClick={() => currentQuestion < (questions.length-1) ? setCurrentQuestion(currentQuestion + 1) : toResultPage() }
             >
-                Next Question
+                NEXT
             </button>
             
         </div>
