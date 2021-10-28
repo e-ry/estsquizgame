@@ -8,15 +8,15 @@ import Quizcard from "../components/quizcard";
 
 export default function QuizPage(){
 
-    // const questions = [
-    //     {questionId: "0", questionText: "dummytext1", nrOfOptions: "3", nrOfAnswers:"1", typeKey:"1", categoryKey:"1"},
-    //     {questionId: "1", questionText: "dummytext2", nrOfOptions: "3", nrOfAnswers:"1", typeKey:"1", categoryKey:"1"},
-    //     {questionId: "2", questionText: "dummytext3", nrOfOptions: "3", nrOfAnswers:"1", typeKey:"1", categoryKey:"1"},
-    //     {questionId: "3", questionText: "dummytext4", nrOfOptions: "3", nrOfAnswers:"1", typeKey:"1", categoryKey:"3"},
-    //     {questionId: "4", questionText: "dummytext5", nrOfOptions: "3", nrOfAnswers:"1", typeKey:"1", categoryKey:"3"},
-    //     {questionId: "5", questionText: "dummytext6", nrOfOptions: "4", nrOfAnswers:"2", typeKey:"1", categoryKey:"4"},
-    //     {questionId: "6", questionText: "dummytext7", nrOfOptions: "2", nrOfAnswers:"2", typeKey:"1", categoryKey:"2"},
-    // ];
+     const questionsMock = [
+         {questionId: "0", questionText: "dummytext1", nrOfOptions: "3", nrOfAnswers:"1", typeKey:"1", categoryKey:"1"},
+         {questionId: "1", questionText: "dummytext2", nrOfOptions: "3", nrOfAnswers:"1", typeKey:"1", categoryKey:"1"},
+         {questionId: "2", questionText: "dummytext3", nrOfOptions: "3", nrOfAnswers:"1", typeKey:"1", categoryKey:"1"},
+         {questionId: "3", questionText: "dummytext4", nrOfOptions: "3", nrOfAnswers:"1", typeKey:"1", categoryKey:"3"},
+         {questionId: "4", questionText: "dummytext5", nrOfOptions: "3", nrOfAnswers:"1", typeKey:"1", categoryKey:"3"},
+         {questionId: "5", questionText: "dummytext6", nrOfOptions: "4", nrOfAnswers:"2", typeKey:"1", categoryKey:"4"},
+         {questionId: "6", questionText: "dummytext7", nrOfOptions: "2", nrOfAnswers:"2", typeKey:"1", categoryKey:"2"},
+     ];
 
     // const options = [
     //     {optionId:"1", optionText:"hey", isAnswer: false },
@@ -33,11 +33,12 @@ export default function QuizPage(){
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        getAllQuestions()
-        .then((r) => setLoading(false));
+        setQuestions(questionsMock)
+        //getAllQuestions()
+        //.then((r) => setLoading(false));
     }, []);
     
-    const getAllQuestions = async () => {
+    /*const getAllQuestions = async () => {
         const response = await fetch('http://localhost:5000/questions/');
         const body = await response.json();
         if (response.status !== 200) {
@@ -46,7 +47,7 @@ export default function QuizPage(){
         console.log(body);
         setQuestions(body);
         return body;
-    };
+    };*/
 
     return loading ?(
         <div> Loading...</div>) :

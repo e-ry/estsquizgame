@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Option from "./option";
+import Option from "./Option";
 
 export default function OptionList({options, setScore, score }){
 

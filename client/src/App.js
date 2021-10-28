@@ -13,8 +13,8 @@ function App() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    getAllQuestions()
-    .then((r) => setLoading(false));
+    //getAllQuestions()
+    //.then((r) => setLoading(false));
   }, []);
 
   const getAllQuestions = async () => {
@@ -34,7 +34,7 @@ function App() {
   };
 
   return( 
-    <div>
+    <div >
     <Router>
       <Suspense fallback={<p>loading...</p>}>
         <Switch>
