@@ -3,10 +3,10 @@ import Option from "./option";
 
 export default function OptionList({options, setScore, score }){
 
-    const [optionSelected, setOptionSelected] = useState('');
+    const [optionSelected, setOptionSelected] = useState(false);
     useEffect(() => {
-        setOptionSelected('');
-    },[options]);
+        setOptionSelected(false);
+    });
    
     return (
         
@@ -24,9 +24,3 @@ export default function OptionList({options, setScore, score }){
             )
 
 }
-
-
-
-/*
-
-    */
