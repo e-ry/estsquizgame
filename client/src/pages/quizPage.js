@@ -27,6 +27,10 @@ export default function QuizPage(){
     //     {optionId:"6", optionText:"hoooo", isAnswer: false},
     // ];
 
+    const history = useHistory();
+    const toResultPage = () => {history.push({pathname:ROUTES.RESULTPAGE, state:score })};
+
+
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [score, setScore] = useState(0);
     const [questions, setQuestions] = useState();
@@ -43,7 +47,6 @@ export default function QuizPage(){
         if (response.status !== 200) {
           throw Error(body.message.a);
         }
-        console.log(body);
         setQuestions(body);
         return body;
     };
@@ -54,11 +57,12 @@ export default function QuizPage(){
         <div>
             <h2>{score}</h2>
             <h1>Quizz Lightyear!</h1>
-
+            {console.log(questions.length)};
+            {console.log(currentQuestion)};
             <Quizcard question = {questions[currentQuestion]} setScore = {setScore} score = {score}/>
 
             <button
-                onClick={() => setCurrentQuestion(currentQuestion + 1)}
+                onClick={() => currentQuestion < (questions.length-1) ? setCurrentQuestion(currentQuestion + 1) : toResultPage() }
             >
                 Next Question
             </button>
