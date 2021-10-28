@@ -1,8 +1,6 @@
 import React, { lazy, useEffect, useState, Suspense } from 'react';
 import './App.css';
 import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
-import Question from './components/question';
-import Option from './components/option';
 import * as ROUTES from './constants/routes'
 
 const StarterPage = lazy(() => import ('./pages/starterPage'));

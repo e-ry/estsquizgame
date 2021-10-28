@@ -1,7 +1,7 @@
 //TODO this is unsafe
 const Pool = require('pg').Pool;
 const pool = new Pool({
-  user: 'eric',
+  user: 'me',
   host: 'localhost',
   database: 'api',
   password: 'password',

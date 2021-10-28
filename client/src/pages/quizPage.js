@@ -43,6 +43,7 @@ export default function QuizPage(){
         if (response.status !== 200) {
           throw Error(body.message.a);
         }
+        console.log(body);
         setQuestions(body);
         return body;
     };
