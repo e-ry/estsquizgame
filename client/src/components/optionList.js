@@ -14,7 +14,8 @@ export default function OptionList({options, setScore, score }){
         
         {options.map((option, index)=>{
             return <li key={option.optionId}> 
-                        <Option option = {option} setOptionSelected = {setOptionSelected} optionSelected = {optionSelected} setScore = {setScore} score = {score}/> 
+                        <Option option = {option} setOptionSelected = {setOptionSelected} 
+                        optionSelected = {optionSelected} setScore = {setScore} score = {score}/> 
                     </li>
         })}
     

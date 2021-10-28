@@ -10,7 +10,7 @@ export default function Option({option, setOptionSelected, optionSelected, setSc
                 setAnswerColor("green");
             } else if(option.optionId === optionSelected && !option.isAnswer){
                 setAnswerColor("red")
-            } else if(option.isanswer && optionSelected){
+            } else if(option.isAnswer && optionSelected){
                 //setAnswerColor("green");
             }
 
