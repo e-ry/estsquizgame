@@ -3,9 +3,9 @@ import Option from "./Option";
 
 export default function OptionList({options, setScore, score }){
 
-    const [optionSelected, setOptionSelected] = useState(false);
+    const [optionSelected, setOptionSelected] = useState('');
     useEffect(() => {
-        setOptionSelected(false);
+        setOptionSelected('');
     });
    
     return (

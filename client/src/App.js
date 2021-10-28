@@ -5,6 +5,7 @@ import * as ROUTES from './constants/routes'
 
 const StarterPage = lazy(() => import ('./pages/starterPage'));
 const QuizPage = lazy(() => import ('./pages/quizPage'));
+const ResultPage = lazy(() => import ('./pages/resultPage'));
 
 function App() {
   const [questions, setQuestions] = useState();
@@ -40,6 +41,7 @@ function App() {
         <Switch>
             <Route path={ROUTES.STARTPAGE} component={StarterPage} exact/>
             <Route path={ROUTES.QUIZPAGE} component={QuizPage}/>
+            <Route path={ROUTES.RESULTPAGE} component={ResultPage}/>
         </Switch>
       </Suspense>
       </Router>
