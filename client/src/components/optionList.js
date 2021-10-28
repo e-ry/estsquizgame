@@ -4,9 +4,10 @@ import Option from "./option";
 export default function OptionList({options, setScore, score }){
 
     const [optionSelected, setOptionSelected] = useState('');
+    useEffect(() => {
+        setOptionSelected('');
+    },[options]);
    
-
-    
     return (
         
     <ul> 

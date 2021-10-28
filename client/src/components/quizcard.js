@@ -2,13 +2,12 @@ import React, { useState } from "react";
 import OptionList from "./optionList";
 import Question from "./question";
 
-export default function Quizcard({question, options, setScore, score }){
-
+export default function Quizcard({question, setScore, score }){
     
     return(
         <div>
             <Question questionText= {question.questionText} />
-            <OptionList options = {options} setScore = {setScore} score={score}/>
+            <OptionList options = {question.options} setScore = {setScore} score={score}/>
         </div>
     )
 

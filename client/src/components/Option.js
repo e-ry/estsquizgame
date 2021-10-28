@@ -5,13 +5,13 @@ export default function Option({option, setOptionSelected, optionSelected, setSc
     const [answerColor, setAnswerColor] = useState('');
 
     useEffect(() => {
-            if(option.optionId === optionSelected && option.isAnswer){
+            if(option.optionId === optionSelected){
                 setScore(score + 1);
                 setAnswerColor("green");
             } else if(option.optionId === optionSelected && !option.isAnswer){
                 setAnswerColor("red")
-            } else if(option.isAnswer && optionSelected){
-                setAnswerColor("green");
+            } else if(option.isanswer && optionSelected){
+                //setAnswerColor("green");
             }
 
         
