@@ -1,15 +1,14 @@
 import React from "react";
-import { Route } from "react-router";
-import * as ROUTES from "../constants/routes";
 import { useHistory } from "react-router-dom";
 import logo from '../boid.png';
+import * as ROUTES from "../constants/routes";
 
 export default function StarterPage(){
     const history = useHistory();
     const handleClick = () => history.push(ROUTES.QUIZPAGE);
 
     return(
-        <div className="h-screen w-96 bg-purple-100 font-mono">
+        <div className="h-screen w-full bg-purple-100 font-mono">
             <div className="h-auto flex flex-col">
                 <div className="w-2/5 mx-auto my-14">
                     <img src={logo}></img>
