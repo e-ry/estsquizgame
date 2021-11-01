@@ -10,7 +10,6 @@ export default function Option({
   const [answerColor, setAnswerColor] = useState('');
 
   useEffect(() => {
-    console.log(optionSelected);
     if (option.optionId === optionSelected && option.isAnswer) {
       setScore(score + 1);
       setAnswerColor('green');

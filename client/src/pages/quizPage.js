@@ -14,11 +14,27 @@ export default function QuizPage() {
     const [score, setScore] = useState(0);
     const [questions, setQuestions] = useState();
     const [loading, setLoading] = useState(true);
+    const [progressbar, setProgressbar] = useState('w-1/4');
 
     useEffect(() => {
         getAllQuestions()
         .then((r) => setLoading(false));
     }, []);
+
+    useEffect(() => {
+        switch(currentQuestion) {
+            
+            case 1:
+                setProgressbar('w-2/4');
+            break
+            case 2:
+                setProgressbar('w-3/4');
+            break
+            case 3:
+                setProgressbar('w-full'); 
+            break   
+        }
+    },[currentQuestion])
     
     const getAllQuestions = async () => {
         const response = await fetch('http://localhost:5000/questions/');
@@ -33,7 +49,26 @@ export default function QuizPage() {
     return loading ?(
         <div> Loading...</div>) :
         (
+            
             <div className="bg-purple-100 h-screen w-full text-center font-mono">
+
+                <div class="relative pt-1 pt-6 pl-6 pr-6">
+                    <div class="overflow-hidden h-2 text-xs flex rounded bg-purple-200">
+                        <div
+                            class={`
+                            shadow-none
+                            flex flex-col
+                            text-center
+                            whitespace-nowrap
+                            text-white
+                            justify-center
+                            bg-purple-500
+                            ${progressbar}
+                            `}
+                            ></div>
+                    </div>
+                </div>
+
             <h2 className="text-center py-10">
               {questions[currentQuestion].categoryName}
             </h2>
