@@ -49,4 +49,7 @@ npm start
 #start front end
 
 cd client
+
+npm install
+
 npm start
