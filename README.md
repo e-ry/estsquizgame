@@ -3,7 +3,7 @@
 #install psql (requires brew)
 Brew install postgresql
 
-#start postgresql
+start postgresql
 Brew services start postgresql 
 
 #connect to database
