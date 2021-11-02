@@ -39,3 +39,14 @@ CREATE DATABASE api;
 #connect to the database (given the commands in database.sql)
 
 psql me -h 127.0.0.1 -d api -f database.sql
+
+#start server
+
+npm install
+
+npm start
+
+#start front end
+
+cd client
+npm start
