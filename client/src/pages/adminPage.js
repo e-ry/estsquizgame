@@ -12,6 +12,7 @@ export default function AdminPage(props) {
     "category": "backend",
     "options": [["option1", true], ["option2", false], ["option3", false], ["option4", false]],
     "difficulty": "medium",
+    "id": "10"
   }
 
   console.log(testQuestion)
