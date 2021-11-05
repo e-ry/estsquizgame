@@ -1,10 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 export default function AdminPage(props) {
 
+  const [questionType, setQuestionType] = useState('');
+
   useEffect(() => {
-    console.log("admin page!")
-  });
+    console.log(questionType)
+  }, [questionType]);
 
   const testQuestion = {
     "questionType": "choice",
@@ -14,9 +16,6 @@ export default function AdminPage(props) {
     "difficulty": "medium",
     "id": "10"
   }
-
-  console.log(testQuestion)
-  console.log(JSON.stringify(testQuestion))
 
   const postQuestion = async () => {
     const requestOptions = {
@@ -39,6 +38,19 @@ export default function AdminPage(props) {
   return(
     <>
     <div>HELLO</div>
+    <form> 
+      <label>
+        question:
+        <input className="bg-purple-100" type="text" onChange={(e) => setQuestionType(e.target.value)}/>
+      </label>
+      <label>
+        <select onChange={(e) => setQuestionType(e.target.value)}>
+          <option value="choice">Multiple choice</option>
+          <option value="Fill in the blanks">Lime</option>
+          <option value="IDK MAN">Coconut</option>
+        </select>
+      </label>
+    </form>
     <button className="bg-green" onClick={postQuestion}>BUTTON</button>
     </>
   );
