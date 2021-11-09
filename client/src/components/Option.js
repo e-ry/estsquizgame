@@ -23,6 +23,7 @@ export default function Option({
 
   return (
     <button
+      key={optionText}
       onClick={() => setOptionSelected(optionText)}
       type="button"
       className="btn toggle-btn shadow-lg bg-purple-300 w-full py-2 my-2"

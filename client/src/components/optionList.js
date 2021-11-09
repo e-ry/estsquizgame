@@ -10,10 +10,10 @@ export default function OptionList({ options, setScore, score }) {
     <ul>
       {options.map((option) => {
         return (
-          <li className="w-full drop-shadow" key={option[0]}>
+          <li className="w-full drop-shadow" key={option[1]}>
             <Option
-              optionText={option[0]}
-              optionTrue={option[1]}
+              optionText={option[1]}
+              optionTrue={option[2]}
               setOptionSelected={setOptionSelected}
               optionSelected={optionSelected}
               setScore={setScore}
